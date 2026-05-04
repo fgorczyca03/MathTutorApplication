@@ -13,6 +13,11 @@ interface Message {
 }
 
 export default function App() {
+  const starterPrompts = [
+    'Can you help me identify what this problem is asking?',
+    'What should I do first, and why?',
+    'Can you give me a hint for the next step?',
+  ];
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -152,6 +157,10 @@ export default function App() {
                 accept="image/*" 
                 className="hidden" 
               />
+
+              <p className="text-xs text-warm-ink/50 max-w-md">
+                Tip: after uploading, ask focused questions like “why this rule?”, “is my derivative correct?”, or “what hint should I try next?”
+              </p>
             </div>
           ) : (
             <>
@@ -220,6 +229,21 @@ export default function App() {
 
         {/* Input Area */}
         <div className="p-6 border-t border-warm-accent/10 bg-warm-bg/50 backdrop-blur-sm">
+          {messages.length > 0 && (
+            <div className="mb-4 flex flex-wrap gap-2">
+              {starterPrompts.map((prompt) => (
+                <button
+                  key={prompt}
+                  type="button"
+                  onClick={() => setInput(prompt)}
+                  className="text-xs px-3 py-1.5 rounded-full border border-warm-accent/20 text-warm-accent/80 hover:bg-warm-accent/10 transition-colors"
+                >
+                  {prompt}
+                </button>
+              ))}
+            </div>
+          )}
+
           <form onSubmit={handleSendMessage} className="relative flex items-center space-x-4">
             <button 
               type="button"
