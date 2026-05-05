@@ -1,6 +1,6 @@
 import { GoogleGenAI, ThinkingLevel, GenerateContentResponse } from "@google/genai";
 
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 
 export interface MathStep {
   stepNumber: number;
@@ -29,7 +29,7 @@ export async function analyzeMathProblem(
   history: any[] = []
 ): Promise<string> {
   if (!GEMINI_API_KEY) {
-    throw new Error("GEMINI_API_KEY is not set");
+    throw new Error("VITE_GEMINI_API_KEY is not set");
   }
 
   const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
@@ -67,7 +67,7 @@ export async function chatWithTutor(
   history: { role: "user" | "model"; parts: { text: string }[] }[]
 ): Promise<string> {
   if (!GEMINI_API_KEY) {
-    throw new Error("GEMINI_API_KEY is not set");
+    throw new Error("VITE_GEMINI_API_KEY is not set");
   }
 
   const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
